@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: yaml-check
+        name: Check YAML syntax
+        entry: python3 -c "import yaml; import sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]"
+        language: system
+        files: \.ya?ml$

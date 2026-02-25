@@ -1,0 +1,27 @@
+namespace: "monitoring"
+
+cluster:
+  name: "monitoring"
+  ports:
+    grafana: 30080
+    influxdb: 30300
+
+helm_chart:
+  enabled: true
+  name: "monitoring"
+  path: "../shared-manifest/deploy/k8s-cluster/dev/helm"
+  values:
+    namespace: "monitoring"
+    influxdb:
+      image: "influxdb:2.7"
+      storage: "10Gi"
+      nodePort: 30300
+    telegraf:
+      image: "telegraf:1.28"
+    grafana:
+      image: "grafana/grafana:10.2.0"
+      storage: "5Gi"
+      nodePort: 30080
+      adminPassword: "admin"
+    database:
+      name: "telegraf"
