@@ -1,36 +1,20 @@
 # shared-config
 
-Configuration values for deployments.
-
-## What you get
-
-- Environment-specific config files
-- Organized by deployment type
-- YAML format for easy editing
-
-## Usage
-
-```bash
-terraformlib plan -c shared-config/deploy/k8s-cluster/dev/terraform/terraform.yaml
-```
+Configuration files for deployments.
 
 ## Structure
 
 ```
-shared-config/deploy/k8s-cluster/dev/terraform/terraform.yaml
+deploy/k8s-cluster/dev/
+├── shared/
+│   └── common-values.yaml    # Single source of truth
+├── terraform/
+│   └── terraform.yaml        # Terraform-specific config
+├── helm/
+│   └── helm.yaml            # Helm-specific config
+└── configuration.yaml        # Meta configuration
 ```
 
-## Example config
+## Usage
 
-```yaml
-namespace: "monitoring"
-cluster:
-  name: "monitoring"
-  ports:
-    grafana: 30080
-    influxdb: 30300
-helm_chart:
-  enabled: true
-  name: "monitoring"
-  path: "../shared-manifest/deploy/k8s-cluster/dev/helm"
-```
+All tools reference `shared/common-values.yaml` for consistent deployments.

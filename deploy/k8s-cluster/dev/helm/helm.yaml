@@ -1,0 +1,7 @@
+# Helm configuration
+release:
+  name: "apps"
+  create_namespace: true
+
+chart:
+  path: "../../../../shared-manifest/deploy/k8s-cluster/dev/helm"

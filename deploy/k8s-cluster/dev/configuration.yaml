@@ -1,0 +1,59 @@
+---
+configuration:
+  meta:
+    repo:
+      url: git@github.com:company/shared-config.git
+      branch: master
+      tag:
+      path: k8s-cluster/dev/deploy/configuration.yaml
+      watch:
+        - k8s-cluster/dev/deploy/{**,.}/*
+        - k8s-cluster/dev/secrets/{**,.}/*
+
+    shared:
+      url: git@github.com:company/shared-config.git
+      branch: master
+      tag:
+
+    main:
+      url: git@github.com:company/tf-root-k8s-cluster.git
+      branch: master
+      tag:
+
+    parts:
+      root: k8s-cluster/dev/deploy/configuration.yaml
+      common: k8s-cluster/dev/deploy/common-values.yaml
+      
+      terraform:
+        backend:
+          local: k8s-cluster/dev/deploy/terraform/backend/local.tfvars.json
+        parts:
+          root: k8s-cluster/dev/deploy/terraform/terraform.yaml
+          tagging: common/tagging.tfvars.json
+          secrets: k8s-cluster/dev/secrets/common/secrets.yaml
+
+      helm:
+        parts:
+          root: k8s-cluster/dev/deploy/helm/helm.yaml
+          chart: k8s-cluster/dev/deploy/helm/chart
+          values: k8s-cluster/dev/deploy/common-values.yaml
+
+  tools:
+    terraform: '1.5'
+    helm: '3.12'
+    kubectl: '1.28'
+
+  deployment:
+    name: "k8s-cluster"
+    environment: "dev"
+    type: "cluster"
+
+  paths:
+    shared: "shared-config/deploy/k8s-cluster/dev/shared/common-values.yaml"
+    terraform:
+      config: "shared-config/deploy/k8s-cluster/dev/terraform/terraform.yaml"
+      manifest: "shared-manifest/deploy/k8s-cluster/dev/terraform/terraform.yaml"
+      module: "tf-root-k8s-cluster"
+    helm:
+      config: "shared-config/deploy/k8s-cluster/dev/helm/helm.yaml"
+      chart: "shared-manifest/deploy/k8s-cluster/dev/helm"
