@@ -1,8 +1,23 @@
-# Terraform configuration using common values
-namespace: "default-apps"
+# Terraform-specific configuration (references common-values.yaml)
 
-cluster:
-  name: "dev-cluster"
-  ports:
-    grafana: 30080
-    influxdb: 30300
+# Backend configuration
+backend:
+  type: "local"
+  path: "terraform.tfstate"
+
+# Resource tagging
+tags:
+  ManagedBy: "terraform"
+  Environment: "dev"
+  Project: "k8s-cluster"
+  Owner: "platform-team"
+
+# Kind cluster configuration (non-version settings)
+kind_config:
+  node_role: "control-plane"
+
+# Terraform behavior
+terraform:
+  auto_approve: false
+  parallelism: 10
+  refresh: true

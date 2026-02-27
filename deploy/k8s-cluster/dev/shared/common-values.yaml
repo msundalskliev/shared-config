@@ -1,6 +1,5 @@
-# Common values for both Terraform and Helm
+# Common values for both Terraform and Helm - SINGLE SOURCE OF TRUTH
 namespace: "default-apps"
-cluster_name: "dev-cluster"
 
 cluster:
   name: "dev-cluster"
@@ -8,16 +7,12 @@ cluster:
     grafana: 30080
     influxdb: 30300
 
-# Helm app configurations
+# Helm app configurations (non-version settings)
 apps:
   influxdb:
-    image: "influxdb:2.7"
     storage: "10Gi"
-    nodePort: 30300
   grafana:
-    image: "grafana/grafana:10.2.0"
     storage: "5Gi"
-    nodePort: 30080
     adminPassword: "admin"
   database:
     name: "telegraf"
