@@ -1,7 +1,8 @@
 # Helm configuration
 release:
   name: "apps"
-  create_namespace: true
+  create_namespace: false
 
 chart:
-  path: "../../../../shared-manifest/deploy/k8s-cluster/dev/helm"
+  name: "monitoring"
+  version: "0.1.0"
