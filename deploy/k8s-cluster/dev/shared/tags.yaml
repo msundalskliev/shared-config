@@ -1,0 +1,6 @@
+# shared values across all tools
+tags:
+  ManagedBy: "terraform"
+  Environment: "dev"
+  Project: "k8s-cluster"
+  Owner: "devops-team"
