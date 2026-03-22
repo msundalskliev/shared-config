@@ -1,20 +1,7 @@
 # shared-config
 
-Configuration files for deployments.
+configuration values and helm charts
 
-## Structure
+terraform values live in terraform.yaml. helm charts live in helm/charts/. shared tags and secrets in shared/.
 
-```
-deploy/k8s-cluster/dev/
-├── shared/
-│   └── common-values.yaml    # Single source of truth
-├── terraform/
-│   └── terraform.yaml        # Terraform-specific config
-├── helm/
-│   └── helm.yaml            # Helm-specific config
-└── configuration.yaml        # Meta configuration
-```
-
-## Usage
-
-All tools reference `shared/common-values.yaml` for consistent deployments.
+configuration.yaml points to where everything is.
