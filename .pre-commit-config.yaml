@@ -5,6 +5,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+        exclude: 'helm/charts/.*/templates/.*\.yaml$'
   - repo: local
     hooks:
       - id: yaml-check
@@ -12,3 +13,4 @@ repos:
         entry: python3 -c "import yaml; import sys; [yaml.safe_load(open(f)) for f in sys.argv[1:]]"
         language: system
         files: \.ya?ml$
+        exclude: 'helm/charts/.*/templates/.*\.yaml$'

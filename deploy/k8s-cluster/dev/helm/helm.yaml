@@ -4,5 +4,6 @@ release:
   create_namespace: false
 
 chart:
+  path: "charts/monitoring"
   name: "monitoring"
   version: "0.1.0"
