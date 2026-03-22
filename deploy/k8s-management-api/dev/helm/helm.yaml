@@ -1,0 +1,8 @@
+release:
+  name: "k8s-management-api"
+  create_namespace: false
+
+chart:
+  path: "charts/k8s-management-api"
+  name: "k8s-management-api"
+  version: "0.1.0"

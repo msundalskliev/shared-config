@@ -1,0 +1,4 @@
+apiVersion: v2
+name: k8s-management-api
+description: kubernetes management api server
+version: 0.1.0
