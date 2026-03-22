@@ -1,23 +1,19 @@
-# Terraform-specific configuration (references common-values.yaml)
+# terraform-specific values
+namespace: "default-apps"
 
-# Backend configuration
-backend:
-  type: "local"
-  path: "terraform.tfstate"
+cluster:
+  name: "dev-cluster"
+  image: "kindest/node:v1.33.0"
+  ports:
+    grafana: 30080
+    influxdb: 30300
+    api: 30090
 
-# Resource tagging
-tags:
-  ManagedBy: "terraform"
-  Environment: "dev"
-  Project: "k8s-cluster"
-  Owner: "platform-team"
+storage:
+  influxdb: "10Gi"
+  grafana: "5Gi"
 
-# Kind cluster configuration (non-version settings)
-kind_config:
-  node_role: "control-plane"
-
-# Terraform behavior
-terraform:
-  auto_approve: false
-  parallelism: 10
-  refresh: true
+database_name: "telegraf"
+# for local development only, do not use in production
+# in a production environment we will use secrets manager secured credentials utilising versioning
+grafana_password: "admin"
