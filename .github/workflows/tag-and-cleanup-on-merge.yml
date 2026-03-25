@@ -26,6 +26,15 @@ jobs:
         run: |
           set -euo pipefail
           date_prefix="$(date -u +%Y%m%d)"
+          merge_sha="${MERGE_SHA:-}"
+          if [ -z "$merge_sha" ]; then
+            merge_sha="${GITHUB_SHA:-}"
+          fi
+          if [ -z "$merge_sha" ]; then
+            echo "merge sha is empty"
+            exit 1
+          fi
+
           git fetch --tags --force
           latest_for_day="$(git tag -l "${date_prefix}.*" --sort=-v:refname | head -n 1)"
 
@@ -42,7 +51,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$tag" "$MERGE_SHA" -m "auto tag for merged pr #${{ github.event.pull_request.number }}"
+          git tag -a "$tag" "$merge_sha" -m "auto tag for merged pr #${{ github.event.pull_request.number }}"
           git push origin "$tag"
           echo "created tag: $tag"
 
