@@ -1,0 +1,17 @@
+github_owner: "msundalskliev"
+
+commit_author: "Michael Sundalskliev"
+commit_email: "michael@example.com"
+
+repositories:
+  manifestlib:
+    description: "manifest and config structure library"
+    visibility: "public"
+    gitignore_template: "Go"
+    precommit_template: "go-precommit.yaml"
+
+  corelib:
+    description: "core utilities and types for deployment tools"
+    visibility: "public"
+    gitignore_template: "Go"
+    precommit_template: "go-precommit.yaml"
