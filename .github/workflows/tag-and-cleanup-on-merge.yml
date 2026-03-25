@@ -25,7 +25,21 @@ jobs:
           MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
         run: |
           set -euo pipefail
-          tag="v$(date -u +%Y.%m.%d).${{ github.run_number }}"
+          date_prefix="$(date -u +%Y.%m.%d)"
+          git fetch --tags --force
+          latest_for_day="$(git tag -l "${date_prefix}.*" --sort=-v:refname | head -n 1)"
+
+          if [ -z "$latest_for_day" ]; then
+            tag="${date_prefix}.0"
+          else
+            last_n="${latest_for_day##*.}"
+            if ! [[ "$last_n" =~ ^[0-9]+$ ]]; then
+              echo "invalid existing tag format: $latest_for_day"
+              exit 1
+            fi
+            tag="${date_prefix}.$((last_n + 1))"
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$tag" "$MERGE_SHA" -m "auto tag for merged pr #${{ github.event.pull_request.number }}"
