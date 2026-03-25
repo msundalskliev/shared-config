@@ -1,0 +1,14 @@
+---
+configuration:
+  metadata:
+    structure:
+      root: github-repos/dev/configuration.yaml
+
+      terraform:
+        backend:
+          local: github-repos/dev/terraform/backend/local.tfvars.json
+
+        includes:
+          root: github-repos/dev/terraform/terraform.yaml
+          tags: github-repos/dev/shared/tags.yaml
+          secrets: github-repos/dev/shared/secrets.yaml

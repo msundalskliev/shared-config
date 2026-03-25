@@ -1,19 +1,18 @@
 ---
 configuration:
-  # File paths
-  parts:
-    # shared configuration values
-    shared:
-      tags: k8s-cluster/dev/shared/tags.yaml
-      secrets: k8s-cluster/dev/shared/secrets.yaml
+  metadata:
+    structure:
+      root: k8s-cluster/dev/configuration.yaml
 
-    # terraform configuration
-    terraform:
-      backend:
-        local: k8s-cluster/dev/terraform/backend/local.tfvars.json
-      parts:
-        root: k8s-cluster/dev/terraform/terraform.yaml
+      terraform:
+        backend:
+          local: k8s-cluster/dev/terraform/backend/local.tfvars.json
 
-    # helm configuration
-    helm:
-      root: k8s-cluster/dev/helm/helm.yaml
+        includes:
+          root: k8s-cluster/dev/terraform/terraform.yaml
+          tags: k8s-cluster/dev/shared/tags.yaml
+          secrets: k8s-cluster/dev/shared/secrets.yaml
+
+      helm:
+        includes:
+          root: k8s-cluster/dev/helm/helm.yaml

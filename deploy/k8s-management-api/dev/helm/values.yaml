@@ -1,0 +1,19 @@
+# Environment-specific Helm value overrides for k8s-management-api
+# These values override chart defaults and are merged during deployment
+# Reference: shared-manifest/deploy/k8s-management-api/dev/helm/charts/
+
+# k8s-management-api overrides
+k8s-management-api:
+  # Image tag can be overridden per environment
+  image:
+    tag: 'latest'
+
+  # Replicas per environment
+  replicas: 1
+
+  # Port configuration
+  port: 8080
+
+  # Service type (ClusterIP, NodePort, etc.)
+  serviceType: 'NodePort'
+  nodePort: 30090

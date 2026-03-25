@@ -1,0 +1,5 @@
+# shared tags
+tags:
+  ManagedBy: "terraform"
+  Environment: "dev"
+  Project: "github-repos"

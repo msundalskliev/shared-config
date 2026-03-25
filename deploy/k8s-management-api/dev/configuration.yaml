@@ -1,0 +1,9 @@
+---
+configuration:
+  metadata:
+    structure:
+      root: k8s-management-api/dev/configuration.yaml
+
+      helm:
+        includes:
+          root: k8s-management-api/dev/helm/helm.yaml

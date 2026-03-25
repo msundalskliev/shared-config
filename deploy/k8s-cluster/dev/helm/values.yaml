@@ -1,0 +1,22 @@
+# Environment-specific Helm value overrides for k8s-cluster
+# These values override chart defaults and are merged during deployment
+# Reference: shared-manifest/deploy/k8s-cluster/dev/helm/charts/
+
+# monitoring stack overrides
+monitoring:
+  # Grafana overrides
+  grafana:
+    # adminPassword can be overridden here per environment
+    # replicas can be scaled per environment
+    replicas: 1
+
+  # InfluxDB overrides
+  influxdb:
+    # storage size per environment
+    storage: 10Gi
+
+  # Telegraf overrides (if using)
+  # telegraf:
+  #   config: |
+  #     [agent]
+  #       interval = "10s"
