@@ -1,0 +1,71 @@
+name: tag and cleanup on merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  tag-and-cleanup:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: create and push tag
+        env:
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          set -euo pipefail
+          date_prefix="$(date -u +%Y%m%d)"
+          merge_sha="${MERGE_SHA:-}"
+          if [ -z "$merge_sha" ]; then
+            merge_sha="${GITHUB_SHA:-}"
+          fi
+          if [ -z "$merge_sha" ]; then
+            echo "merge sha is empty"
+            exit 1
+          fi
+
+          git fetch --tags --force
+          latest_for_day="$(git tag -l "${date_prefix}.*" --sort=-v:refname | head -n 1)"
+
+          if [ -z "$latest_for_day" ]; then
+            tag="${date_prefix}.0"
+          else
+            last_n="${latest_for_day##*.}"
+            if ! [[ "$last_n" =~ ^[0-9]+$ ]]; then
+              echo "invalid existing tag format: $latest_for_day"
+              exit 1
+            fi
+            tag="${date_prefix}.$((last_n + 1))"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$tag" "$merge_sha" -m "auto tag for merged pr #${{ github.event.pull_request.number }}"
+          git push origin "$tag"
+          echo "created tag: $tag"
+
+      - name: delete merged branch
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          if [ "$HEAD_REPO" = "$BASE_REPO" ] && [ "$HEAD_REF" != "$DEFAULT_BRANCH" ]; then
+            git push origin --delete "$HEAD_REF" || true
+            echo "deleted branch: $HEAD_REF"
+          else
+            echo "skip branch delete (fork or default branch)"
+          fi
