@@ -4,14 +4,54 @@ commit_author: "Michael Sundalskliev"
 commit_email: "michael@example.com"
 
 repositories:
-  manifestlib:
+  manifestlib-go:
     description: "manifest and config structure library"
-    visibility: "public"
     gitignore_template: "Go"
     precommit_template: "go-precommit.yaml"
+    create: true
+
+  k8s-management-api:
+    description: "API service for Kubernetes deployment management"
+    gitignore_template: "Go"
+    precommit_template: "go-precommit.yaml"
+    create: false
+
+  k8slib-go:
+    description: "Kubernetes and Helm helper library"
+    gitignore_template: "Go"
+    precommit_template: "go-precommit.yaml"
+    create: false
+
+  terraformlib-go:
+    description: "Terraform helper library and CLI"
+    gitignore_template: "Go"
+    precommit_template: "go-precommit.yaml"
+    create: false
+
+  tf-root-k8s-cluster:
+    description: "Terraform root for provisioning the Kubernetes cluster"
+    gitignore_template: "Terraform"
+    precommit_template: "terraform-precommit.yaml"
+    create: false
+
+  tf-root-repo:
+    description: "Terraform root for managing GitHub repositories"
+    gitignore_template: "Terraform"
+    precommit_template: "terraform-precommit.yaml"
+    create: true
+
+  shared-config:
+    description: "Shared deployment configuration values"
+    precommit_template: "yaml-precommit.yaml"
+    create: false
+
+  shared-manifest:
+    description: "Shared deployment manifests and sources"
+    precommit_template: "yaml-precommit.yaml"
+    create: false
 
   corelib:
     description: "core utilities and types for deployment tools"
-    visibility: "public"
     gitignore_template: "Go"
     precommit_template: "go-precommit.yaml"
+    create: false
